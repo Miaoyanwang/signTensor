@@ -1,0 +1,227 @@
+\documentclass[11pt]{article}
+
+\usepackage{fancybox}
+
+
+
+\usepackage{color}
+\usepackage{url}
+\usepackage[margin=1in]{geometry}
+
+
+\renewcommand{\textfraction}{0.0}
+\renewcommand{\topfraction}{1.0}
+%\renewcommand{\textfloatsep}{5mm}
+
+
+\usepackage{comment}
+% Definitions of handy macros can go here
+\usepackage{amsmath,amssymb,amsthm,bm,mathtools}
+\usepackage{multirow}
+\usepackage{natbib}
+%\usepackage{dsfont,multirow,hyperref,setspace,natbib,enumerate}
+\usepackage{dsfont,multirow,hyperref,setspace,enumerate}
+\hypersetup{colorlinks,linkcolor={blue},citecolor={blue},urlcolor={red}}
+\usepackage{algpseudocode,algorithm}
+\algnewcommand\algorithmicinput{\textbf{Input:}}
+\algnewcommand\algorithmicoutput{\textbf{Output:}}
+\algnewcommand\INPUT{\item[\algorithmicinput]}
+\algnewcommand\OUTPUT{\item[\algorithmicoutput]}
+
+\mathtoolsset{showonlyrefs=true}
+
+
+
+\theoremstyle{plain}
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}{Lemma}
+\newtheorem{prop}{Proposition}
+\newtheorem{pro}{Property}
+\newtheorem{assumption}{Assumption}
+
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{cor}{Corollary}
+\newtheorem{example}{Example}
+\newtheorem{rmk}{Remark}
+
+
+\renewcommand{\thefigure}{{S\arabic{figure}}}%
+\renewcommand{\thetable}{{S\arabic{table}}}%
+\renewcommand{\figurename}{{Supplementary Figure}}
+\renewcommand{\tablename}{{Supplementary Table}}
+\setcounter{figure}{0}
+\setcounter{table}{0}
+
+
+\def\MLET{\hat \Theta_{\text{MLE}}}
+\newcommand{\cmt}[1]{{\leavevmode\color{red}{#1}}}
+
+
+
+\usepackage{dsfont}
+
+\usepackage{multirow}
+
+\DeclareMathOperator*{\minimize}{minimize}
+
+\usepackage{wrapfig}
+
+\usepackage{mathtools}
+\mathtoolsset{showonlyrefs}
+\newcommand*{\KeepStyleUnderBrace}[1]{%f
+  \mathop{%
+    \mathchoice
+    {\underbrace{\displaystyle#1}}%
+    {\underbrace{\textstyle#1}}%
+    {\underbrace{\scriptstyle#1}}%
+    {\underbrace{\scriptscriptstyle#1}}%
+  }\limits
+}
+\usepackage{xr}
+\externaldocument{signT}
+\input macros.tex
+
+
+\def\sign{\textup{sgn}}
+\def\srank{\textup{srank}}
+\def\rank{\textup{rank}}
+\def\caliP{\mathscr{P}_{\textup{sgn}}}
+\def\risk{\textup{Risk}}
+
+
+
+
+
+
+\title{Supplements for ``Beyond the Signs: Nonparametric Tensor Completion via Sign Series''}
+
+
+\begin{document}
+
+
+\begin{center}
+\begin{spacing}{1.5}
+\textbf{\Large Supplements for ``Tensor denoising and completion based on ordinal observations''}
+\end{spacing}
+\end{center}
+
+
+\section{Additional results}\label{sec:proof}
+\subsection{Details of simulation}
+Here, the numerical rank is computed as the minimal rank for which the relative least-squares error is below 0.1, and $\tZ$ is a rank-3 tensor with i.i.d.\ $N(0,1)$ entries in the (unnormalized) singular vectors. Reported ranks are averaged across 10 replicates of $\tZ$, with standard errors given in error bars. Numerical values in both figures are obtained by running CP decomposition with random initialization.
+
+
+\begin{example}[Addition examples that satisfying Proposition~\ref{prop:extention}]
+We provide a tensor example with $\rank(\Theta)=d$ but $\srank(\Theta)=3$. Define $\Theta=\sum_{r=1}^d \me^{\otimes 2}_r\otimes \mathbf{1}^{\otimes (K-2)}_d$, where $\me_r=(0,\ldots,0,1,0,\ldots,0)^T$ is the $r$-th canonical basis in $\mathbb{R}^d$, and $\mathbf{1}_d\in\mathbb{R}^d$ is a vector with all entries 1. Based on the definition of $\Theta$, we have
+\[
+\rank(\Theta)=\rank(\mI),\quad \srank(\Theta)=\srank(\mI),
+\]
+where $\mI\in\mathbb{R}^{d\times d}$ is the identity matrix. Therefore, it suffices to show that $\srank(\mI)=3$. We now construct a rank-2 matrix $\mA$ such that $\sign(\mA-1/2)=\sign(\mI)$. Define
+\[
+\mA=\begin{bmatrix}
+1 & -{1\over 2}\times 1\\
+2^{-1}& -{1\over 2}\times 4^{-1}\\
+\vdots&\vdots\\
+2^{-d+1}& -{1\over 2}\times 4^{-d+1}
+\end{bmatrix}
+\begin{bmatrix}
+1&2&\cdots&2^{d-1}\\
+1&4&\cdots& 4^{d-1}
+\end{bmatrix}.
+\]
+It is easy to verify that $\mA(i,j)={1\over 2}$ if $i=j$, and $\mA(i,j)<{1\over 2}$ otherwise. Therefore, $\sign(\mA-1/2)=\mI$. 
+\end{example}
+
+\section{Additional numerical results}
+
+
+\section{Proofs}\label{sec:proof}
+\begin{proof}[Proof of Proposition~\ref{prop:global}]
+Based on the definition, the function $\risk(\cdot)$ relies only on the sign pattern of the tensor. Therefore, without loss of generality, we assume both tensors $\bar \Theta, \tZ \in\{-1,1\}^{d_1\times \cdots \times d_K}$ are binary tensors. 
+We evaluate the excess risk 
+\begin{equation}\label{eq:risk}
+\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi}\KeepStyleUnderBrace{\mathbb{E}_{\tY(\omega)}\left\{|\tY(\omega)-\pi|\left[\left|\tZ(\omega)-\sign(\bar \tY(\omega)) \right|-\left|\bar\Theta(\omega)-\sign(\bar \tY(\omega))\right|\right]\right\}}_{=:I(\omega)}.
+\end{equation}
+Denote $y=\tY(\omega)$, $z=\tZ(\omega)$, $\bar \theta=\bar\Theta(\omega)$, and $\theta=\Theta(\omega)$. It follows from the expression of $I(\omega)$ that
+\begin{align}\label{eq:I}
+I(\omega)&= \mathbb{E}_{y}\left[ (y-\pi)(\bar \theta-z)\mathds{1}(y\geq \pi)+(\pi-y)(z-\bar \theta)\mathds{1}(y< \pi)\right]\\
+&= \mathbb{E}_{y}\left[(\bar \theta-z) (y-\pi)\right]\\
+&=  \left[\sign(\theta-\pi)-z\right]\left(\theta-\pi\right)\\
+&= |\sign(\theta-\pi)-z||\theta-\pi|\geq 0
+\end{align}
+where the third line uses the fact $\mathbb{E}y=\theta$ and $\bar \theta=\sign(\theta-\pi)$, and the last line uses the assumption $z \in\{-1,1\}$. In particular, the equality is attained when $z=\sign(\theta-\pi)$ or $\theta=\pi$. Combining~\eqref{eq:I} with~\eqref{eq:risk}, we conclude 
+\[
+\risk(\tZ)- \risk(\bar \Theta) = \mathbb{E}_{\omega\sim \Pi} |\sign(\Theta(\omega)-\pi)-\tZ(\omega)||\Theta(\omega)-\pi|\geq 0,
+\]
+for all $\tZ\in\{-1,1\}^{d_1\times \cdots \times d_K}$. Therefore,
+\[
+\risk(\bar \Theta)=\min\{\risk(\tZ)\colon \tZ\in \mathbb{R}^{d_1\times \cdots \times d_K}\} \leq \min\{\risk(\tZ)\colon \rank(\tZ)\leq r\}.
+\]
+Because $\srank(\bar \Theta)\leq r$ by assumption, the last inequality becomes equality. The proof is complete. 
+\end{proof}
+
+
+\begin{proof}
+We verify two conditions. 
+\begin{enumerate}
+\item Approximation error. For $\tZ$ with $\text{rank}(\tZ)\leq r$, we have $\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)=0$ for all $d$.  
+\item Variance-to-mean relationship
+\[
+\text{Var}_{\tY, \Omega}[L(\tZ,\bar \tY_\pi)-L(\bar \Theta, \tY_\pi)]\leq [\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)]^{\alpha/(1+\alpha)}+{1\over \rho(\pi, \tN)}[\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)].
+\]
+Apply Lemma~\ref{lem:tensor} to the above condition, we obtain
+\[
+\textup{Risk}(\tZ)-\textup{Risk}(\bar \Theta)\leq t_n^{(\alpha+1)/(\alpha+2)}+{1\over \rho(\pi, \tN)}t_n, \quad \text{where }t_n={Krd\over n}.
+\]
+\end{enumerate}
+\end{proof}
+
+\begin{lem}\label{lem:tensor}
+
+Because the classification rate is scale-free; $\text{Risk}(\tZ)=\text{Risk}(c\tZ)$ for every $c>0$. Therefore, without loss of generality, we solve the estimate subject to $\FnormSize{}{\tZ}\leq 1$,
+\[
+\hat \tZ=\argmin_{\tZ\colon \textup{rank}(\tZ)\leq r, \FnormSize{}{\tZ}\leq 1}L(\tZ,\bar \tY_\pi).
+\]
+Write $|\Omega|=n$. We have
+\[
+\mathbb{P}[\textup{Risk}(\hat \tZ)-\textup{Risk}(\bar \Theta)\geq t_n]\leq {7\over 2}\exp(-Cnt_n).
+\]
+The rate of convergence $t_n>0$ is determined by the solution to the following inequality,
+\[
+{1\over t_n}\int^{\sqrt{t_n^\alpha+\rho^{-1}t_n}}_{t_n} \sqrt{\tH_{[\ ]}(\varepsilon,\ \tF,\ \vnormSize{}{\cdot}) }d\varepsilon \leq n^{1/2}, 
+\]
+where $\tF=\{\tZ\colon \textup{rank}(\tZ)\leq r, \ \FnormSize{}{\tZ}^2\leq 1\}$ and $\rho=\rho(\pi, \tN)$. By Lemma~\ref{lem:bracketing}, we obtain 
+\[
+t_n\asymp \left({Kdr\over n}\right)^{(\alpha+1)/(\alpha+2)} +{1\over \rho^2(\pi, \tN)} {Kdr\over n}.
+\] 
+Finally, we obtain
+\[
+\mathbb{P}[\textup{Risk}(\hat \tZ)-\textup{Risk}(\bar \Theta)\geq t_n]\leq {7\over 2}\exp(-Cd^{\alpha+1\over \alpha+2}n^{1\over \alpha+2}) \leq {7\over 2}\exp(-C\sqrt{d}),
+\]
+where $C=C(k,r)>0$ is a constant independent of $d$ and $n$.  
+\end{lem}
+
+\begin{lem}[Bracketing number for bounded low rank tensor]\label{lem:bracketing}
+\[
+\sqrt{\mathbb{E}_{\omega\sim \Pi}|\tZ_1(\omega)-\tZ_2(\omega)|^2} \leq \mnormSize{}{\tZ_1-\tZ_2} \leq \FnormSize{}{\tZ_1-\tZ_2}.
+\]
+Therefore
+\[
+\tH_{[\ ]}(2\varepsilon, \tF, \vnormSize{}{\cdot})\leq \tH(\varepsilon, \tF, \FnormSize{}{\cdot}) \leq C{(1+Kdr)\log {d\over \varepsilon}},
+\]
+where the covering number for low rank tensor is based on~\citet{mu2014square,9119759}.
+\end{lem}
+
+
+
+
+
+
+\bibliographystyle{chicago}
+
+\bibliography{tensor_wang}
+
+\appendix
+
+\end{document}
